@@ -9,24 +9,23 @@ except AttributeError:
     pass
 import os
 
-# Số liệu "vân tay" của bộ dữ liệu Anki 100-user CHÍNH THỨC (7.1M dòng raw, đã chốt)
+# Official fingerprint for Anki 100-user dataset (7.1M raw rows)
 RAW_ROW_COUNT_EXPECTED = 7102219
 RAW_SHA256_EXPECTED = "ff1058fb5fab6bad1593c27fc5b6d8aa9012584e3a5ab2db806a774dd8e09121"
 PROCESSED_ROW_COUNT_EXPECTED = 4809123
 
 def check_raw_dataset(path="data/anki_10k_subset_raw.parquet"):
-    """Kiểm tra file raw trước khi preprocessing. Gọi ở đầu preprocess_anki_10k.py."""
+    """Check raw file before preprocessing. Called in preprocess_anki_10k.py."""
     if not os.path.exists(path):
-        raise FileNotFoundError(f"Không tìm thấy {path}")
+        raise FileNotFoundError(f"Missing {path}")
     
     # Check rows
     df = pd.read_parquet(path, columns=["card_id"])
     n_rows = len(df)
     if n_rows != RAW_ROW_COUNT_EXPECTED:
-        print(f"[CẢNH BÁO] {path} có {n_rows:,} dòng, KHÔNG khớp bản chính thức ({RAW_ROW_COUNT_EXPECTED:,} dòng).")
-        print(f"Mức độ lệch: {abs(n_rows - RAW_ROW_COUNT_EXPECTED):,} dòng.")
+        print(f"[WARNING] {path} has {n_rows:,} rows, EXPECTED {RAW_ROW_COUNT_EXPECTED:,}.")
     else:
-        print(f"[OK] Raw dataset: {n_rows:,} dòng, khớp bản chính thức.")
+        print(f"[OK] Raw dataset: {n_rows:,} rows (matches official).")
         
     # Check SHA256
     sha256 = hashlib.sha256()
@@ -35,17 +34,14 @@ def check_raw_dataset(path="data/anki_10k_subset_raw.parquet"):
             sha256.update(chunk)
     file_hash = sha256.hexdigest()
     if file_hash != RAW_SHA256_EXPECTED:
-        print(f"[CẢNH BÁO] {path} checksum KHÔNG khớp bản chính thức.")
-        print(f"Checksum hiện tại: {file_hash}")
-        print(f"Checksum kỳ vọng : {RAW_SHA256_EXPECTED}")
+        print(f"[WARNING] {path} checksum mismatch.")
     else:
-        print(f"[OK] Raw dataset: Checksum SHA-256 khớp bản chính thức ({file_hash}).")
+        print(f"[OK] Raw dataset SHA-256 matched.")
 
 def check_processed_dataset(path="processed/anki_processed.csv"):
-    """Kiểm tra file đã tiền xử lý trước khi train. Gọi ở đầu train_dqn_offline() và 
-    train_hlr.py (phần Anki)."""
+    """Check processed file before offline training."""
     if not os.path.exists(path):
-        raise FileNotFoundError(f"Không tìm thấy {path}")
+        raise FileNotFoundError(f"Missing {path}")
     
     if path.endswith(".parquet"):
         # unified_anki.parquet uses item_id
@@ -57,9 +53,6 @@ def check_processed_dataset(path="processed/anki_processed.csv"):
     n_rows = len(df)
     if n_rows != PROCESSED_ROW_COUNT_EXPECTED:
         raise RuntimeError(
-            f"[CẢNH BÁO] {path} có {n_rows:,} dòng, KHÔNG khớp bản chính thức "
-            f"({PROCESSED_ROW_COUNT_EXPECTED:,} dòng). Có thể đang huấn luyện trên dữ liệu "
-            f"đã bị ghi đè hoặc sai bản!"
+            f"[WARNING] {path} has {n_rows:,} rows, EXPECTED {PROCESSED_ROW_COUNT_EXPECTED:,}."
         )
-    print(f"[OK] Processed dataset: {n_rows:,} dòng, khớp bản chính thức.")
-
+    print(f"[OK] Processed dataset: {n_rows:,} rows (matches official).")

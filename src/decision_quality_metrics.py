@@ -2,18 +2,16 @@ import numpy as np
 
 def compute_decision_quality(history, p_recall_threshold=0.7, target_recall=0.85):
     """
-    history: list các dict có key 'p_recall' (đã có sẵn trong sim.history, field được log ở 
-    mỗi lần review_card() được gọi).
+    history: list of dicts with 'p_recall' key (logged each time review_card() is called).
     
-    Precision (Urgent Intervention): trong số các lần đã ôn, bao nhiêu % là ôn đúng lúc thẻ 
-    đang ở mức "nguy cơ" (p_recall < threshold) -- ôn khi p_recall >= threshold coi là lãng phí 
-    (ôn quá sớm khi còn nhớ tốt).
+    Precision (Urgent Intervention): % of reviews that were necessary (p_recall < threshold).
+    Reviewing when p_recall >= threshold is considered wasted effort (reviewing too early).
     
-    Target Deviation (Abs): độ lệch tuyệt đối trung bình giữa p_recall lúc ôn và mục tiêu lý tưởng (0.85).
+    Target Deviation (Abs): mean absolute error between p_recall at review time and target_recall (0.85).
     
-    Mean Signed Deviation: trung bình sai lệch có dấu (dương = xu hướng ôn sớm, âm = xu hướng ôn trễ).
+    Mean Signed Deviation: mean signed error (positive = tendency to review early, negative = tendency to review late).
     
-    Pct Reviews Early: tỷ lệ ôn tập quá sớm (khi p_recall > 0.85).
+    Pct Reviews Early: % of reviews conducted when p_recall > 0.85.
     """
     p_recalls = [h['p_recall'] for h in history]
     n_total = len(p_recalls)
