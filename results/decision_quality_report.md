@@ -1,6 +1,6 @@
 # Decision Quality Report
 
-| Scheduler | Precision (Urgent Intervention) mean±std | Target Deviation (Abs) mean±std | Mean Signed Deviation mean±std | % Reviews Early (ôn khi p_recall > 0.85) mean±std |
+| Scheduler | Precision (Urgent Intervention) mean±std | Target Deviation (Abs) mean±std | Mean Signed Deviation mean±std | % Reviews Early (p_recall > 0.85) mean±std |
 | :--- | :---: | :---: | :---: | :---: |
 | **RANDOM** | 60.18% ± 3.25% | 0.4793 ± 0.0233 | -0.3942 ± 0.0296 | 34.32% ± 3.11% |
 | **LEITNER** | 52.99% ± 5.84% | 0.2954 ± 0.0272 | -0.2494 ± 0.0326 | 28.69% ± 4.10% |
