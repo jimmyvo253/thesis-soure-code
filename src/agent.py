@@ -6,9 +6,7 @@ import random
 from collections import deque
 
 class QNetwork(nn.Module):
-    """
-    Multi-layer Perceptron (MLP) mapping state to action-values (Q-values).
-    """
+    # MLP mapping state to Q-values
     def __init__(self, state_dim, action_dim, hidden_dim=64):
         super(QNetwork, self).__init__()
         self.net = nn.Sequential(
@@ -24,10 +22,7 @@ class QNetwork(nn.Module):
 
 
 class ReplayBuffer:
-    """
-    Experience Replay Buffer to store and sample transitions.
-    Reduces correlation between consecutive transitions.
-    """
+    # buffer to store and sample transitions
     def __init__(self, capacity=20000):
         self.buffer = deque(maxlen=capacity)
         
@@ -49,9 +44,7 @@ class ReplayBuffer:
 
 
 class DQNAgent:
-    """
-    Deep Q-Network Agent.
-    """
+    # Deep Q-Network Agent supporting Double DQN and Conservative Q-Learning (CQL)
     def __init__(self, state_dim=3, action_dim=7, lr=1e-3, gamma=0.99,
                  epsilon_start=1.0, epsilon_end=0.05, epsilon_decay=0.995,
                  batch_size=64, buffer_capacity=20000, target_update_freq=10,

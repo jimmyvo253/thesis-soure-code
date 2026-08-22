@@ -3,25 +3,8 @@ from gymnasium import spaces
 import numpy as np
 
 class FlashcardEnv(gym.Env):
-    """
-    Custom Gymnasium environment for learning flashcard review spacing.
-
-    State representation (matches reset()/step() below - see Ch.5.1 fix,
-    this replaces an earlier [difficulty, half_life, t] version that leaked
-    ground-truth memory parameters directly into the state):
-        - state[0]: history_seen (cumulative review count for this card)
-        - state[1]: history_correct (cumulative correct review count)
-        - state[2]: days since last review (t)
-
-    Actions:
-        - 0: 1 day
-        - 1: 2 days
-        - 2: 4 days
-        - 3: 7 days
-        - 4: 15 days
-        - 5: 30 days
-        - 6: 60 days
-    """
+    # state: [history_seen, history_correct, t]
+    # actions: 7 intervals
     metadata = {"render_modes": ["human"]}
     
     INTERVALS = [1, 2, 4, 7, 15, 30, 60]
@@ -73,29 +56,26 @@ class FlashcardEnv(gym.Env):
     def step(self, action):
         interval = self.INTERVALS[action]
         
-        # Compute recall probability P(recall) = 2^(-t / h)
+        # P(recall) formula
         p_recall = 2.0 ** (-interval / self.half_life)
         
-        # Simulate user response
+        # random roll
         recalled = self.np_random.rand() < p_recall
         
         h_old = self.half_life
         
-        # Update half-life based on recall result
         if recalled:
-            # Spacing effect: lower recall probability during review means higher memory boost if successful
+            # spacing factor
             difficulty_factor = 1.3 - 0.8 * self.difficulty
             factor = (1.5 + 4.0 * (1.0 - p_recall)) * difficulty_factor
             factor = max(1.1, min(factor, 8.0))
             self.half_life = h_old * factor
             
-            # Reward: Maximized when recall prob is close to target_recall (e.g. 0.85)
-            # Penalize reviewing too early (high recall prob, wasting time) or too late (low recall prob)
+            # shape reward
             reward = 1.0 - 2.0 * abs(p_recall - self.target_recall)
         else:
-            # Penalty for forgetting: reset stability
+            # penalize forgetting
             self.half_life = max(0.5, h_old * 0.3)
-            # Negative reward for forgetting (reduced from -2.0 to -1.0)
             reward = -1.0
             
         # Clamp half-life to prevent infinite growth
