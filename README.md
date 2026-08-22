@@ -26,6 +26,4 @@ python src/evaluate.py
 ```
 
 ## 5. Other Utilities
-- `python generate_diagrams.py`: Generates the figures and diagrams used in the thesis.
-- `python show_final_results.py`: Prints the final numerical results.
 - `python run_paired_t_test.py`: Computes statistical significance between models.
