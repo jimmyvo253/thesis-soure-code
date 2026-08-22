@@ -25,5 +25,3 @@ Run the evaluation script to simulate the learning process and benchmark against
 python src/evaluate.py
 ```
 
-## 5. Other Utilities
-- `python run_paired_t_test.py`: Computes statistical significance between models.
