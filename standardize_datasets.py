@@ -22,7 +22,7 @@ def main():
     anki_csv_out = os.path.join(output_dir, "unified_anki.csv")
     anki_parquet_out = os.path.join(output_dir, "unified_anki.parquet")
     
-    report_artifact_path = r"C:\Users\votan\.gemini\antigravity\brain\21dd1e49-927c-475c-8833-060df0f5c951\standardization_report.md"
+    report_artifact_path = "standardization_report.md"
     report_workspace_path = "standardization_report.md"
     
     print(f"============================================================")

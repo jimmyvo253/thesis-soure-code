@@ -20,7 +20,7 @@ def main():
     processed_parquet_out = "processed/anki_processed.parquet"
     processed_csv_out = "processed/anki_processed.csv"
     
-    report_artifact_path = r"C:\Users\votan\.gemini\antigravity\brain\21dd1e49-927c-475c-8833-060df0f5c951\anki_10k_preprocessing_report.md"
+    report_artifact_path = "anki_10k_preprocessing_report.md"
     report_workspace_path = "anki_10k_preprocessing_report.md"
     
     print(f"============================================================")
