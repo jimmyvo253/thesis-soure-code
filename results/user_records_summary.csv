@@ -1,0 +1,11 @@
+Statistic,Value
+Total Unique Users,"20,204"
+Average Records per User,49.50
+Median Records per User,26.0
+Min Records per User,1
+Max Records per User,"2,041"
+25th Percentile,8.0
+75th Percentile,59.0
+90th Percentile,119.0
+95th Percentile,175.0
+99th Percentile,342.0

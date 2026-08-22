@@ -1,0 +1,14 @@
+Metric,Duolingo (Full 13M),Anki (Subset 250k)
+Total Review Records,"12,854,226","250,000"
+Unique Cards / Lexemes,"19,279","29,639"
+Mean Recall Success Rate,90.45%,92.83%
+Average Prior Repetitions,3470.71,4.52
+Avg Reviews per User/Card,111.56,8.43
+Median Reviews per User/Card,34.0,8.0
+Min Reviews per User/Card,1,1
+Max Reviews per User/Card,"19,194",70
+25th Percentile Reviews,10.0,7.0
+75th Percentile Reviews,112.0,9.0
+90th Percentile Reviews,280.0,10.0
+95th Percentile Reviews,463.0,14.0
+99th Percentile Reviews,1065.8,23.0
